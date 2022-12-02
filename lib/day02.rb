@@ -1,5 +1,3 @@
-require "pp"
-
 class Day02
   MOVES_PART_A = {
     "A" => :rock,
