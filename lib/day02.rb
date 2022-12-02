@@ -1,7 +1,7 @@
 require "pp"
 
 class Day02
-  MOVES = {
+  MOVES_PART_A = {
     "A" => :rock,
     "B" => :paper,
     "C" => :scissors,
@@ -9,6 +9,20 @@ class Day02
     "Y" => :paper,
     "Z" => :scissors,
   }
+
+  MOVES_PART_B = {
+    "A" => :rock,
+    "B" => :paper,
+    "C" => :scissors,
+  }
+
+  GOALS_PART_B = {
+    "X" => :lose,
+    "Y" => :draw,
+    "Z" => :win,
+  }
+
+  MOVE_HIERARCHY = [:rock, :paper, :scissors]
 
   MOVE_SCORES = {
     rock: 1,
@@ -22,7 +36,28 @@ class Day02
       map(&:chomp).
       map(&:split).
       map { |game|
-        game.map { |move| MOVES[move] }
+        game.map { |move| MOVES_PART_A[move] }
+      }.map { |game|
+        score(game)
+      }.sum
+  end
+
+  def part_b(input)
+    input.
+      lines.
+      map(&:chomp).
+      map(&:split).
+      map { |game|
+        [MOVES_PART_B[game.first], GOALS_PART_B[game.last]]
+      }.map { |game|
+        case game.last
+        when :lose
+          [game.first, MOVE_HIERARCHY[(MOVE_HIERARCHY.index(game.first) - 1) % 3]]
+        when :draw
+          [game.first, game.first]
+        when :win
+          [game.first, MOVE_HIERARCHY[(MOVE_HIERARCHY.index(game.first) + 1) % 3]]
+        end
       }.map { |game|
         score(game)
       }.sum
