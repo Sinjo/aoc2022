@@ -1,0 +1,26 @@
+#!/usr/bin/env ruby
+
+require "optparse"
+
+options = {}
+OptionParser.new do |opts|
+  opts.on("-d", "--day DAY", "Which day to run") do |d|
+    d = "0#{d}" if d.length == 1
+    options[:day] = d
+  end
+  opts.on("-p", "--part PART", "Which part to run") do |p|
+    options[:part] = p
+  end
+  opts.on("-i", "--input INPUT", "Which input file to use") do |i|
+    options[:input] = i
+  end
+end.parse!
+
+require_relative "../lib/day#{options[:day]}"
+
+solution = Object.const_get("Day#{options[:day]}")
+input_path = File.expand_path("#{__dir__}/../#{options[:input]}")
+input = File.read(input_path)
+result = solution.new.public_send("part_#{options[:part]}".to_sym, input)
+
+puts result
