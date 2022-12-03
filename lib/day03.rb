@@ -7,7 +7,7 @@ class Day03
       map(&:chomp).
       map(&:chars).
       map { |line| [line[0...(line.size/2)].to_set, line[(line.size/2)..-1].to_set] }.
-      map { |line| line.first & line.last }.
+      map { |line| line.reduce(&:&) }.
       map(&:first).
       map { |common_item|
         case common_item
@@ -27,7 +27,7 @@ class Day03
       map(&:chars).
       map(&:to_set).
       each_slice(3).
-      map { |group| group[0] & group[1] & group[2] }.
+      map { |group| group.reduce(&:&) }.
       map(&:first).
       map { |common_item|
         case common_item
