@@ -19,9 +19,7 @@ class Day04
         [(line.elf_one_start..line.elf_one_end).to_set, (line.elf_two_start..line.elf_two_end).to_set]
       }.map { |line|
         line.first <= line.last || line.last <= line.first
-      }.filter { |line|
-        line
-      }.size
+      }.count(true)
   end
 
   def part_b(input)
@@ -38,8 +36,6 @@ class Day04
         [(line.elf_one_start..line.elf_one_end).to_set, (line.elf_two_start..line.elf_two_end).to_set]
       }.map { |line|
         (line.first & line.last).size > 0
-      }.filter { |line|
-        line
-      }.size
+      }.count(true)
   end
 end
