@@ -23,6 +23,21 @@ class Day05
   end
 
   def part_b(input)
+    input_lines = input.lines.map(&:chomp)
+    split_index = input_lines.index("")
+
+    stack_lines = input_lines[0...split_index]
+    stack_lines.reverse!
+    move_lines = input_lines[split_index+1..-1]
+
+    stacks = parse_stacks(stack_lines)
+    moves = parse_moves(move_lines)
+
+    moves.each do |move|
+      stacks[move.to].push(*stacks[move.from].pop(move.count))
+    end
+
+    stacks[1..-1].map(&:last).join
   end
 
   private
