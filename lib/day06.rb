@@ -8,5 +8,10 @@ class Day06
   end
 
   def part_b(input)
+    input.chars.each_cons(14).with_index { |slice, index|
+      if slice.size == slice.uniq.size
+        break index + 14
+      end
+    }
   end
 end
