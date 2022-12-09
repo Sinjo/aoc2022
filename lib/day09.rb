@@ -102,21 +102,6 @@ class Day09
             next
           end
 
-          # We're aligned on one of the two axes, so the move is simple
-          if head_position.x == tail_position.x 
-            new_tail_y = (head_position.y + tail_position.y) / 2
-            tail_position = Point.new(tail_position.x, new_tail_y)
-            positions[index + 1] = tail_position
-
-            next
-          elsif head_position.y == tail_position.y
-            new_tail_x = (head_position.x + tail_position.x) / 2
-            tail_position = Point.new(new_tail_x, tail_position.y)
-            positions[index + 1] = tail_position
-
-            next
-          end
-
           # We need to move diagonally
           # Construct a translation based on the relative positions of head and tail
           translation_x = (head_position.x - tail_position.x) <=> 0
