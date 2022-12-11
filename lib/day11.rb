@@ -44,6 +44,30 @@ class Day11
   end
 
   def part_b(input)
+    monkeys = parse_monkeys(input)
+
+    # I see we have reached the maths part of AoC, and I hate it
+    common_multiple = monkeys.map(&:divisor).reduce(&:*)
+
+    # each round
+    10_000.times do
+      # each turn
+      monkeys.each_with_index do |monkey, _|
+        monkey.items_inspected += monkey.items.size
+
+        # first we inspect, performing the per-monkey operation
+        new_scores = monkey.items.map { |item| monkey.operation.call(item) % common_multiple }
+
+        trues, falses = new_scores.partition { |score| score % monkey.divisor == 0 }
+
+        monkeys[monkey.if_true].items += trues
+        monkeys[monkey.if_false].items += falses
+
+        monkey.items.clear
+      end
+    end
+
+    monkeys.sort { |x, y| x.items_inspected <=> y.items_inspected }.map(&:items_inspected).last(2).reduce(&:*)
   end
 
   def parse_monkeys(input)
